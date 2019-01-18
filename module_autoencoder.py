@@ -84,6 +84,7 @@ class Decoder:
 class Autoencoder:
     def __init__(self, input_tensor):
         self.model = self.get_model( input_tensor)
+        self.layer_names = [ layer.name for layer in self.model.layers]
 
     def get_model(self, input_tensor):
         ec_block1 = Conv2D( 64, (3, 3), padding='same',
@@ -150,3 +151,13 @@ class Autoencoder:
                             activation='relu', name='dc_b6_conv2')(dc_block6)
 
         return Model( inputs=input_tensor, outputs=dc_block6)
+
+    def freeze_encoder(self):
+        for name in self.layer_names:
+            if name.startswith('ec'):
+                self.model.get_layer( name).trainable = False
+
+    def thaw_encoder(self):
+        for name in self.layer_names:
+            if name.startswith('ec'):
+                self.model.get_layer( name).trainable = Train
