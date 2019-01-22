@@ -1,3 +1,6 @@
+# model training checkpoints
+model_weights/checkpoints/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
