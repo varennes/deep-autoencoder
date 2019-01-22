@@ -161,3 +161,18 @@ class Autoencoder:
         for name in self.layer_names:
             if name.startswith('ec'):
                 self.model.get_layer( name).trainable = Train
+
+    def freeze_decoder(self, freeze_list=[]):
+        # if no list / empty list provided, freeze all decoder layers
+        if len(freeze_list)==0:
+            for name in self.layer_names:
+                if name.startswith('dc'):
+                    self.model.get_layer( name).trainable = False
+        else:
+            for name in freeze_list:
+                self.model.get_layer( name).trainable = False
+
+    def freeze_status(self):
+        print '\n AE MODEL LAYER TRAINING STATUS'
+        for name in self.layer_names:
+            print ' layer %s - Trainable = %s' % ( name, self.model.get_layer(name).trainable)
